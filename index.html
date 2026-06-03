@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>KartManager</title>
+
+  <!-- PWA Meta -->
+  <meta name="theme-color" content="#7c3aed">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="KartManager">
+  <meta name="description" content="Şəxsi kart balans və xərc idarəetmə tətbiqi">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Manifest -->
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/style.css">
+
+  <style>
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==============================
+     SPLASH / LOGIN SCREEN
+     ============================== -->
+<div id="splash-screen">
+  <img class="splash-image" src="https://www.genspark.ai/api/files/s/MRXYQLxU" alt="KartManager" onerror="this.style.display='none'">
+  <div class="splash-bottom">
+    <div class="splash-title">KartManager</div>
+    <div class="splash-subtitle">Kart Balans İdarəetmə Sistemi</div>
+    <div class="splash-login-box">
+      <h3>🔐 Sistemə Daxil Ol</h3>
+      <div class="input-group">
+        <label>İstifadəçi Adı</label>
+        <input type="text" id="splash-username" placeholder="İstifadəçi adı..." autocomplete="off">
+      </div>
+      <div class="input-group">
+        <label>Şifrə</label>
+        <input type="password" id="splash-password" placeholder="Şifrə..." autocomplete="off">
+      </div>
+      <div class="splash-error" id="splash-error"></div>
+      <button class="btn btn-primary" id="splash-login-btn">🚀 Daxil Ol</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     INSTALL BANNER
+     ============================== -->
+<div id="install-banner" style="display:none;">
+  <div class="install-icon">📲</div>
+  <div class="install-text">
+    <strong>KartManager'i Quraşdır</strong>
+    <span>Ana ekrana əlavə et, offline işlə</span>
+  </div>
+  <div class="install-actions">
+    <button class="btn-install" id="install-btn">⬇ Yüklə</button>
+    <button class="btn-close-banner" id="close-banner">✕</button>
+  </div>
+</div>
+
+<!-- ==============================
+     MAIN APP
+     ============================== -->
+<div id="app">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="topbar-back" id="topbar-back" style="display:none;">←</button>
+      <div class="topbar-title" id="topbar-title">KartManager</div>
+    </div>
+    <div class="topbar-right">
+      <button class="admin-btn" id="admin-panel-btn">👑 Admin</button>
+    </div>
+  </header>
+
+  <!-- ---- HOME VIEW ---- -->
+  <div id="view-home" class="view active">
+    <!-- Hero Balance -->
+    <div class="home-hero">
+      <div class="total-balance-widget">
+        <div class="total-label">💰 Ümumi Balans</div>
+        <div class="total-amount" id="total-balance">0.00 ₼</div>
+        <div class="total-sub">Bütün kartların cəmi balansı</div>
+      </div>
+    </div>
+    <!-- Cards Container -->
+    <div id="cards-container"></div>
+    <div style="height:20px;"></div>
+  </div>
+
+  <!-- ---- CARD DETAIL VIEW ---- -->
+  <div id="view-card-detail" class="view scrollable" style="overflow-y:auto;height:calc(100vh - 60px);">
+    <!-- Rendered dynamically -->
+  </div>
+
+  <!-- ---- HISTORY VIEW ---- -->
+  <div id="view-history" class="view scrollable" style="overflow-y:auto;height:calc(100vh - 60px);">
+    <!-- Rendered dynamically -->
+  </div>
+
+</div><!-- /#app -->
+
+
+<!-- ==============================
+     MODALS
+     ============================== -->
+
+<!-- Balance Edit Modal -->
+<div id="balance-modal" class="modal">
+  <div class="modal-overlay"></div>
+  <div class="modal-box">
+    <h3>✏️ Balansı Düzəlt</h3>
+    <div class="form-group">
+      <label>Yeni Balans (₼)</label>
+      <input type="number" id="balance-modal-input" placeholder="0.00" step="0.01">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="balance-modal-cancel">Ləğv Et</button>
+      <button class="btn btn-primary" id="balance-modal-save">Yadda Saxla</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin Login Modal -->
+<div id="admin-login-modal" class="modal">
+  <div class="modal-overlay"></div>
+  <div class="modal-box">
+    <h3>👑 Admin Girişi</h3>
+    <div class="form-group">
+      <label>İstifadəçi Adı</label>
+      <input type="text" id="admin-login-user" placeholder="admin">
+    </div>
+    <div class="form-group">
+      <label>Şifrə</label>
+      <input type="password" id="admin-login-pass" placeholder="****">
+    </div>
+    <div class="splash-error" id="admin-login-error"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="admin-login-cancel">Ləğv Et</button>
+      <button class="btn btn-primary" id="admin-login-confirm">Daxil Ol</button>
+    </div>
+  </div>
+</div>
+
+<!-- Cashback Modal -->
+<div id="cashback-modal" class="modal">
+  <div class="modal-overlay"></div>
+  <div class="modal-box">
+    <h3 id="cashback-modal-title">Keşbek Əlavə Et</h3>
+    <div class="form-group">
+      <label>Məbləğ (₼)</label>
+      <input type="number" id="cashback-modal-amount" placeholder="0.00" step="0.01">
+    </div>
+    <div class="form-group">
+      <label>Tarix</label>
+      <input type="date" id="cashback-modal-date">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="cashback-modal-cancel">Ləğv Et</button>
+      <button class="btn btn-primary" id="cashback-modal-save">Əlavə Et</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ==============================
+     ADMIN PANEL (Bottom Sheet)
+     ============================== -->
+<div id="admin-panel" class="admin-modal">
+  <div class="admin-overlay"></div>
+  <div class="admin-sheet">
+    <div class="admin-sheet-handle"></div>
+    <div class="admin-sheet-title">
+      <h2>👑 Admin Paneli</h2>
+      <button class="btn btn-outline btn-sm" id="close-admin-panel">✕ Bağla</button>
+    </div>
+
+    <!-- Admin Tabs -->
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="admin-tab-cards">🔒 Kart Məlumatları</button>
+      <button class="admin-tab" data-tab="admin-tab-cashback">⭐ Keşbek</button>
+      <button class="admin-tab" data-tab="admin-tab-other">📋 Digər Kartlar</button>
+    </div>
+
+    <!-- Tab: Card Info -->
+    <div id="admin-tab-cards" class="admin-tab-content active">
+      <div style="margin-bottom:12px;padding:10px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:8px;">
+        <p style="font-size:0.75rem;color:var(--accent-yellow);">⚠️ Bu məlumatlar gizlidir. İlk 7 kartın CVV və son istifadə tarixi göstərilir.</p>
+      </div>
+      <div id="admin-cards-info"></div>
+    </div>
+
+    <!-- Tab: Cashback -->
+    <div id="admin-tab-cashback" class="admin-tab-content">
+      <div style="margin-bottom:12px;padding:10px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:8px;">
+        <p style="font-size:0.75rem;color:var(--accent-green);">⭐ Keşbek giriş/çıxış əməliyyatları burada idarə olunur.</p>
+      </div>
+      <div id="admin-cashback-content"></div>
+    </div>
+
+    <!-- Tab: Other Cards -->
+    <div id="admin-tab-other" class="admin-tab-content">
+      <div style="margin-bottom:12px;padding:10px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.3);border-radius:8px;">
+        <p style="font-size:0.75rem;color:#818cf8;">📋 Admin kartları: Şəxsiyyət vəsiqəsi, Oxu kartları və s.</p>
+      </div>
+      <div id="admin-other-cards"></div>
+    </div>
+
+    <div style="height:30px;"></div>
+  </div>
+</div>
+
+
+<!-- Toast Container -->
+<div id="toast-container"></div>
+
+<!-- Scripts -->
+<script src="/js/data.js"></script>
+<script src="/js/app.js"></script>
+
+</body>
+</html>
