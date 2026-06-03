@@ -83,7 +83,7 @@ function initSplash() {
 function handleLogin() {
   const user = $('splash-username').value.trim();
   const pass = $('splash-password').value;
-  if (user === 'admin123' && pass === '1245') {
+  if (user === '.' && pass === '618') {
     $('splash-error').textContent = '';
     $('splash-screen').style.opacity = '0';
     $('splash-screen').style.transition = 'opacity 0.5s';
@@ -594,7 +594,7 @@ function showAdminLogin() {
   $('admin-login-confirm').onclick = () => {
     const u = $('admin-login-user').value.trim();
     const p = $('admin-login-pass').value;
-    if (u === 'admin' && p === '1234') {
+    if (u === '618' && p === '.') {
       adminAuthenticated = true;
       modal.classList.remove('open');
       openAdminPanel();
