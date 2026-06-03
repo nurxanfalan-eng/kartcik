@@ -2,7 +2,7 @@
 // SERVICE WORKER - KartManager PWA
 // VERSION: Change this string to force cache refresh on update
 // ============================================================
-const CACHE_VERSION = 'v1.1.0';
+const CACHE_VERSION = 'v1.1.1';
 const CACHE_NAME = `kartmanager-${CACHE_VERSION}`;
 
 const ASSETS_TO_CACHE = [
