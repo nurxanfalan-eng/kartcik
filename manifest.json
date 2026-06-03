@@ -1,7 +1,7 @@
 {
-  "name": "KartManager - Kart İdarəetmə",
-  "short_name": "KartManager",
-  "description": "Şəxsi kart balans və xərc idarəetmə tətbiqi",
+  "name": "QəpikBank",
+  "short_name": "QəpikBank",
+  "description": "Qəpikləri İdarə Etmə Tətbiqi",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0f",
