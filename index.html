@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>KartManager</title>
+  <title>QəpikBank</title>
 
   <!-- PWA Meta -->
   <meta name="theme-color" content="#7c3aed">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="KartManager">
+  <meta name="apple-mobile-web-app-title" content="QəpikBank">
   <meta name="description" content="Şəxsi kart balans və xərc idarəetmə tətbiqi">
   <meta name="mobile-web-app-capable" content="yes">
 
@@ -42,17 +42,17 @@
 <div id="splash-screen">
   <img class="splash-image" src="https://www.genspark.ai/api/files/s/MRXYQLxU" alt="KartManager" onerror="this.style.display='none'">
   <div class="splash-bottom">
-    <div class="splash-title">KartManager</div>
+    <div class="splash-title">QəpikBank</div>
     <div class="splash-subtitle">Kart Balans İdarəetmə Sistemi</div>
     <div class="splash-login-box">
       <h3>🔐 Sistemə Daxil Ol</h3>
       <div class="input-group">
-        <label>İstifadəçi Adı</label>
-        <input type="text" id="splash-username" placeholder="İstifadəçi adı..." autocomplete="off">
+        <label>Qəpik Oğrusunun Adı</label>
+        <input type="text" id="splash-username" placeholder="Qəpik Oğrusunun Adı.." autocomplete="off">
       </div>
       <div class="input-group">
-        <label>Şifrə</label>
-        <input type="password" id="splash-password" placeholder="Şifrə..." autocomplete="off">
+        <label>Qəpik Oğrusunun Şifrəsi</label>
+        <input type="password" id="splash-password" placeholder="Qəpik Oğrusunun Şifrəsi..." autocomplete="off">
       </div>
       <div class="splash-error" id="splash-error"></div>
       <button class="btn btn-primary" id="splash-login-btn">🚀 Daxil Ol</button>
@@ -66,7 +66,7 @@
 <div id="install-banner" style="display:none;">
   <div class="install-icon">📲</div>
   <div class="install-text">
-    <strong>KartManager'i Quraşdır</strong>
+    <strong>QəpikBank'ı Quraşdır</strong>
     <span>Ana ekrana əlavə et, offline işlə</span>
   </div>
   <div class="install-actions">
@@ -84,10 +84,10 @@
   <header class="topbar">
     <div class="topbar-left">
       <button class="topbar-back" id="topbar-back" style="display:none;">←</button>
-      <div class="topbar-title" id="topbar-title">KartManager</div>
+      <div class="topbar-title" id="topbar-title">QəpikBank</div>
     </div>
     <div class="topbar-right">
-      <button class="admin-btn" id="admin-panel-btn">👑 Admin</button>
+      <button class="admin-btn" id="admin-panel-btn">Admin</button>
     </div>
   </header>
 
@@ -143,7 +143,7 @@
 <div id="admin-login-modal" class="modal">
   <div class="modal-overlay"></div>
   <div class="modal-box">
-    <h3>👑 Admin Girişi</h3>
+    <h3>Admin Girişi</h3>
     <div class="form-group">
       <label>İstifadəçi Adı</label>
       <input type="text" id="admin-login-user" placeholder="admin">
@@ -189,7 +189,7 @@
   <div class="admin-sheet">
     <div class="admin-sheet-handle"></div>
     <div class="admin-sheet-title">
-      <h2>👑 Admin Paneli</h2>
+      <h2>Admin Paneli</h2>
       <button class="btn btn-outline btn-sm" id="close-admin-panel">✕ Bağla</button>
     </div>
 
@@ -203,7 +203,7 @@
     <!-- Tab: Card Info -->
     <div id="admin-tab-cards" class="admin-tab-content active">
       <div style="margin-bottom:12px;padding:10px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:8px;">
-        <p style="font-size:0.75rem;color:var(--accent-yellow);">⚠️ Bu məlumatlar gizlidir. İlk 7 kartın CVV və son istifadə tarixi göstərilir.</p>
+        <p style="font-size:0.75rem;color:var(--accent-yellow);">İlk 7 kartın CVV və son istifadə tarixi göstərilir.</p>
       </div>
       <div id="admin-cards-info"></div>
     </div>
